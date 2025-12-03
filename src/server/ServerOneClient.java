@@ -14,9 +14,9 @@ import java.net.SocketException;
 import java.sql.SQLException;
 
 public class ServerOneClient extends Thread {
-    private Socket socket;
-    private ObjectInputStream in;
-    private ObjectOutputStream out;
+    private final Socket socket;
+    private final ObjectInputStream in;
+    private final ObjectOutputStream out;
     private QTMiner kmeans;
     private Data data;
 
@@ -68,7 +68,7 @@ public class ServerOneClient extends Thread {
         }
     }
 
-    void storeTableFromDb() throws IOException, ClassNotFoundException{
+    public void storeTableFromDb() throws IOException, ClassNotFoundException{
         String tabName = (String) in.readObject();
         try {
             this.data = new Data(tabName);
@@ -78,7 +78,7 @@ public class ServerOneClient extends Thread {
         }
     }
 
-    void learningFromDbTable() throws IOException, ClassNotFoundException{
+    public void learningFromDbTable() throws IOException, ClassNotFoundException{
         if (this.data == null) {
             out.writeObject("KO: Data not loaded");
             return;
@@ -94,7 +94,7 @@ public class ServerOneClient extends Thread {
         }
     }
 
-    void storeClusterInFile() throws IOException, ClassNotFoundException {
+    public void storeClusterInFile() throws IOException, ClassNotFoundException {
         String FileName = (String) in.readObject();
         try {
             kmeans.salva(FileName);
@@ -104,7 +104,7 @@ public class ServerOneClient extends Thread {
         }
     }
 
-    void learningFromFile() throws IOException, ClassNotFoundException {
+    public void learningFromFile() throws IOException, ClassNotFoundException {
         String FileName = (String) in.readObject();
         try {
             this.kmeans = new QTMiner(FileName);

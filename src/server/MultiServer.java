@@ -5,13 +5,13 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MultiServer {
-    private int PORT = 8080;
+    private final int PORT;
 
     public static void main(String[] args) {
         new MultiServer(8080);
     }
 
-    MultiServer(int port){
+    public MultiServer(int port){
         this.PORT = port;
         run();
     }
@@ -42,7 +42,7 @@ public class MultiServer {
             try {
                 if (serverSocket != null) serverSocket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Errore nella chiusura del server: " + e.getMessage());
             }
         }
     }
