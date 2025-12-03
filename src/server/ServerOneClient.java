@@ -7,10 +7,8 @@ import database.NoValueException;
 import mining.ClusteringRadiusException;
 import mining.EmptyDatasetException;
 import mining.QTMiner;
-
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
 import java.sql.SQLException;
 
 public class ServerOneClient extends Thread {
