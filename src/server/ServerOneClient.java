@@ -69,7 +69,8 @@ public class ServerOneClient extends Thread {
     public void storeTableFromDb() throws IOException, ClassNotFoundException{
         String tabName = (String) in.readObject();
         try {
-            this.data = new Data(tabName);
+            data = new Data(tabName);
+            out.writeObject(data.toString());
             out.writeObject("OK");
         } catch ( NoValueException | DatabaseConnectionException | SQLException | EmptySetException e) {
             out.writeObject("KO: " + e.getMessage());
@@ -77,16 +78,19 @@ public class ServerOneClient extends Thread {
     }
 
     public void learningFromDbTable() throws IOException, ClassNotFoundException{
-        if (this.data == null) {
+        if (data == null) {
             out.writeObject("KO: Data not loaded");
             return;
         }
         try {
             double r = (Double) in.readObject();
             this.kmeans = new QTMiner(r);
+            int compute = kmeans.compute(data);
+            String cluster = kmeans.getC().toString(data);
+
             out.writeObject("OK");
-            out.writeObject(kmeans.compute(data));
-            out.writeObject(kmeans.getC().toString(data));
+            out.writeObject(compute);
+            out.writeObject(cluster);
         }catch (ClusteringRadiusException | EmptyDatasetException e){
             out.writeObject("KO: " + e.getMessage());
         }

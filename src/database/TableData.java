@@ -70,7 +70,7 @@ public class TableData {
 		}
 		rs.close();
 		statement.close();
-		if(empty) throw new EmptySetException();
+		if(empty) throw new EmptySetException("Empty set");
 		
 		
 		return transSet;

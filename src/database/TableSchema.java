@@ -104,6 +104,13 @@ public class TableSchema {
 
         Connection con = db.getConnection();
         DatabaseMetaData meta = con.getMetaData();
+
+        //controlla se esiste una tabella nel db del server con il nome
+        ResultSet resTables = meta.getTables(null, null, tableName, null);
+        if (!resTables.next()) {
+            throw new SQLException("La tabella " + tableName + " non esiste nel database.");
+        }
+
         ResultSet res = meta.getColumns(null, null, tableName, null);
 
         while (res.next()) {
